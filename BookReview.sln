@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.WebApi", "BookRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Entities", "BookReview.Entities\BookReview.Entities.csproj", "{B522BC1B-0BF9-4065-85EB-0E218252AB39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Infrastructure", "BookReview.Infrastructure\BookReview.Infrastructure.csproj", "{81D08ECB-213D-4676-9D72-E56C7FBC2092}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,5 +46,17 @@ Global
 		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x64.Build.0 = Release|Any CPU
 		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x86.ActiveCfg = Release|Any CPU
 		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x86.Build.0 = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|x64.Build.0 = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|x86.Build.0 = Debug|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|x64.ActiveCfg = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|x64.Build.0 = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|x86.ActiveCfg = Release|Any CPU
+		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

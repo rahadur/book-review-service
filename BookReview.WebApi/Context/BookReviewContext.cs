@@ -18,5 +18,8 @@ public class BookReviewContext : DbContext
     protected override void OnModelCreating(ModelBuilder mb)
     {
         new BookConfiguration().Configure(mb.Entity<Book>());
+        new AuthorConfiguration().Configure(mb.Entity<Author>());
+        // new ReviewConfiguration().Configure(mb.Entity<Review>());
+        // new CommentConfiguration().Configure(mb.Entity<Comment>());
     }
 }

@@ -21,7 +21,6 @@
     },
     "https": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7296;http://localhost:5259",
       "environmentVariables": {

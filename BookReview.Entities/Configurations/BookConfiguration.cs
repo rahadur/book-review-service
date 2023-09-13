@@ -9,6 +9,8 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
 {
 	public void Configure(EntityTypeBuilder<Book> builder)
 	{
+		builder.HasKey(m => m.Id);
+
 		builder.Property(b => b.Title)
 				.IsRequired();
 	}
