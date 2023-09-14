@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using BookReview.WebApi.Context;
 using BookReview.WebApi.Services;
+using BookReview.WebApi.Repositories;
+using BookReview.Dtos.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -11,8 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<BookReviewContext>(
     options => options.UseSqlServer(config.GetConnectionString("BookReview"))
 );
-
+builder.Services.AddAutoMapper(typeof(AutoMapperDtoProfile));
 builder.Services.AddTransient<AuthorService>();
+builder.Services.AddTransient<IBookRepository, BookRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

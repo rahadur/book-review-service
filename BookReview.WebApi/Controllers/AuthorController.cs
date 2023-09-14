@@ -8,10 +8,10 @@ namespace BookReview.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthorsController : ControllerBase
+public class AuthorController : ControllerBase
 {
 	private readonly AuthorService authorService;
-	public AuthorsController(AuthorService authorService)
+	public AuthorController(AuthorService authorService)
 	{
 		this.authorService = authorService;
 	}
