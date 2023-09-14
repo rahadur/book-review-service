@@ -1,8 +1,9 @@
 ﻿
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using BookReview.WebApi.Dtos;
 using BookReview.Entities.Models;
-using BookReview.WebApi.Services;
+using BookReview.WebApi.Repositories;
 
 namespace BookReview.WebApi.Controllers;
 
@@ -10,45 +11,52 @@ namespace BookReview.WebApi.Controllers;
 [Route("[controller]")]
 public class AuthorController : ControllerBase
 {
-	private readonly AuthorService authorService;
-	public AuthorController(AuthorService authorService)
+	private readonly IAuthorRepository authorRepository;
+	private IMapper mapper;
+	
+	public AuthorController(IAuthorRepository authorRepository, IMapper mapper)
 	{
-		this.authorService = authorService;
+		this.authorRepository = authorRepository;
+		this.mapper = mapper;
 	}
 
 
 	[HttpGet]
-	public IEnumerable<AuthorResponse> Get()
+	public ActionResult<IEnumerable<AuthorResponse>> GetAll()
 	{
-		IList<AuthorResponse> responses = Enumerable.Empty<AuthorResponse>().ToList();
-		// TODO refactor with AutoMapper 
-		foreach(var aurhor in authorService.GetAll())
+		var authors = authorRepository.FindAll();
+		if(authors == null)
 		{
-			responses.Add(new AuthorResponse(aurhor.Id, aurhor.Name));
+			return NotFound(new List<AuthorResponse>());
 		}
-		return responses;
+		var authorsDto = mapper.Map<List<AuthorResponse>>(authors);
+		return authorsDto;
 	}
 
 
 	[HttpGet("{id}")]
 	public ActionResult<AuthorResponse> Get(int id)
 	{
-		var author = authorService.FindById(id);
-		if (author != null)  {
-			return new AuthorResponse(author.Id, author.Name);
+		var author = authorRepository.FindById(id);
+		if(author == null) 
+		{
+			return NotFound(new {});
 		}
-		return NotFound(new {});
+
+		var authorDto = mapper.Map<AuthorResponse>(author);
+		return authorDto;
 	}
 
 
 	[HttpPost]
-	public AuthorResponse Post([FromBody] AuthorRequest author)
+	public ActionResult<AuthorResponse> Post([FromBody] AuthorRequest author)
 	{
-		var newAuthro = new Author() { Name = author.Name };
-		this.authorService.Save(newAuthro);
+		var newAuthor = mapper.Map<Author>(author);
+		authorRepository.Add(newAuthor);
 
-		return new AuthorResponse(newAuthro.Id, newAuthro.Name );
+		return Ok(mapper.Map<AuthorResponse>(newAuthor));
 	}
+
 
 	[HttpPut("{id}")]
 	public ActionResult<AuthorResponse> Put(int id, [FromBody] AuthorRequest author)
@@ -58,29 +66,29 @@ public class AuthorController : ControllerBase
 			return BadRequest("Mismatch Author Ids");
 		 }
 
-		 var existingAuthor = authorService.FindById(id);
+		 var existingAuthor = authorRepository.FindById(id);
 		 if(existingAuthor == null)
 		 {
 			return NotFound(new {});
 		 }
 
-		 existingAuthor.Name = author.Name;
+		 mapper.Map(author, existingAuthor);
 
-		 authorService.Update(existingAuthor);
+		 authorRepository.Update(existingAuthor);
 
-		return new AuthorResponse(existingAuthor.Id, existingAuthor.Name);
+		return Ok(mapper.Map<AuthorResponse>(existingAuthor));
 	}
 
 
 	[HttpDelete("{id}")]
 	public IActionResult Delete(int id)
 	{
-		var author =  authorService.FindById(id);
+		var author =  authorRepository.FindById(id);
 		if(author == null) 
 		{
 			return NotFound(new {});
 		}
-		authorService.Delete(author);
+		authorRepository.Remove(author);
 		return NoContent();
 	}
 }

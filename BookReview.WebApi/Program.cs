@@ -14,7 +14,7 @@ builder.Services.AddDbContext<BookReviewContext>(
     options => options.UseSqlServer(config.GetConnectionString("BookReview"))
 );
 builder.Services.AddAutoMapper(typeof(AutoMapperDtoProfile));
-builder.Services.AddTransient<AuthorService>();
+builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
 builder.Services.AddTransient<IBookRepository, BookRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

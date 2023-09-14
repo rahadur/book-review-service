@@ -1,6 +1,6 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using BookReview.Entities.Models;
 using BookReview.WebApi.Repositories;
 using BookReview.WebApi.Dtos;
@@ -22,7 +22,7 @@ public class BookController : ControllerBase
 
 
 	[HttpGet(Name = "GetBook")]
-	public ActionResult<IEnumerable<BookResponse>> Get()
+	public ActionResult<IEnumerable<BookResponse>> GetAll()
 	{
 		var books = bookRepository.FindAll();
 		if (books == null)
@@ -31,6 +31,17 @@ public class BookController : ControllerBase
 		}
 		var dto = mapper.Map<List<BookResponse>>(books);
 		return dto;
+	}
+
+	
+	[HttpPost]
+	public ActionResult<BookResponse> Create([FromBody] BookRequest book)
+	{
+		var newBook = mapper.Map<Book>(book);
+
+		bookRepository.Add(newBook);
+		var bookDto = mapper.Map<BookResponse>(newBook);
+		return Ok(bookDto);
 	}
 
 
@@ -43,11 +54,46 @@ public class BookController : ControllerBase
 			return NotFound(new { });
 		}
 
-		BookResponse bookDto = mapper.Map<BookResponse>(book);
+		var bookDto = mapper.Map<BookResponse>(book);
 		return bookDto;
 	}
 
 
+	[HttpPut("{id}")]
+	public ActionResult<BookResponse> Update(int id, [FromBody] BookRequest book)
+	{
+		if(id != book.Id)
+		{
+			return BadRequest("Mismatch Bookd Ids");
+		}
+
+		var existingBook = bookRepository.FindById(id);
+
+		if(existingBook == null)
+		{
+			return NotFound(new { });
+		}
+
+		mapper.Map(book, existingBook);
+		bookRepository.Update(existingBook);
+		var bookDto = mapper.Map<BookResponse>(existingBook);
+
+		return bookDto;
+	}
+
+
+	[HttpDelete("{id}")]
+	public ActionResult<BookResponse> Delete(int id) 
+	{
+		var book = bookRepository.FindById(id);
+		if(book == null)
+		{
+			return NotFound(new {});
+		}
+		bookRepository.Remove(book);
+
+		return NoContent();
+	}
 
 	[HttpGet("Author/{id}")]
 	public ActionResult<IEnumerable<BookResponse>> GetByAuthorId(int id)
@@ -59,11 +105,10 @@ public class BookController : ControllerBase
 		}
 		return Ok(books);
 	}
-
-
-
+	
+	
 	[HttpGet("Gener/{name}")]
-	public ActionResult<IEnumerable<BookResponse>> GetByGenerId(string name)
+	public ActionResult<IEnumerable<BookResponse>> GetByGenerName(string name)
 	{
 		var books = bookRepository.FindMany(book => book.Genre.ToLower() == name.ToLower());
 		if (books == null)
@@ -74,16 +119,5 @@ public class BookController : ControllerBase
 		return booksDto;
 	}
 
-
-
-	[HttpPost]
-	public ActionResult<BookResponse> Create([FromBody] BookRequest book)
-	{
-		var newBook = mapper.Map<Book>(book);
-
-		bookRepository.Add(newBook);
-		var bookDto = mapper.Map<BookResponse>(newBook);
-		return Ok(bookDto);
-	}
 }
 

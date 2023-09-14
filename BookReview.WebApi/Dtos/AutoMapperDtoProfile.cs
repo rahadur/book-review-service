@@ -16,7 +16,7 @@ public class AutoMapperDtoProfile : Profile
 		CreateMap<BookRequest, Book>();
 		CreateMap<Book, BookResponse>()
 			.ForCtorParam("Title", o => o.MapFrom(src => src.Title))
-			.ForCtorParam("Gener", o => o.MapFrom(src => src.Genre));
+			.ForCtorParam("Genre", o => o.MapFrom(src => src.Genre));
 	}
 }
 

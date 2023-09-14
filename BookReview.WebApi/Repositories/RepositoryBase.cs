@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using BookReview.WebApi.Context;
 using System.Linq.Expressions;
 
 namespace BookReview.WebApi.Repositories;
@@ -10,7 +9,7 @@ public class RepositoryBase<TEntity> : Disposable, IRepository<TEntity> where TE
 	protected DbContext dbContext;
 	private readonly DbSet<TEntity> dbSet;
 
-	public RepositoryBase(BookReviewContext context)
+	public RepositoryBase(DbContext context)
 	{
 		dbContext = context;
 		dbSet = dbContext.Set<TEntity>();
@@ -20,6 +19,38 @@ public class RepositoryBase<TEntity> : Disposable, IRepository<TEntity> where TE
 	public void Add(TEntity entity)
 	{
 		dbSet.Add(entity);
+		dbContext.SaveChanges();
+	}
+
+	public void Update(TEntity entity)
+	{
+		dbSet.Update(entity);
+		dbContext.Entry(entity).State = EntityState.Modified;
+		dbContext.SaveChanges();
+	}
+
+	public void UpdateRange(IEnumerable<TEntity> entities)
+	{
+		dbSet.UpdateRange(entities);
+		dbContext.SaveChanges();
+	}
+
+	public void Remove(TEntity entity)
+	{
+		dbSet.Remove(entity);
+		dbContext.SaveChanges();
+	}
+
+	public void RemoveRange(IEnumerable<TEntity> entities)
+	{
+		dbSet.RemoveRange(entities);
+		dbContext.SaveChanges();
+	}
+
+	public void RemoveRange(Expression<Func<TEntity, bool>> predicate)
+	{
+		IEnumerable<TEntity> entities = dbSet.Where(predicate);
+		dbSet.RemoveRange(entities);
 		dbContext.SaveChanges();
 	}
 

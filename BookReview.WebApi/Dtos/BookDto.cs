@@ -17,7 +17,7 @@ public record BookRequest
 public record BookResponse (
 	int Id,
 	string Title,
-	string Gener,
+	string Genre,
 	string Description,
 	DateTime PublicationDate,
 	int AuthorId,
