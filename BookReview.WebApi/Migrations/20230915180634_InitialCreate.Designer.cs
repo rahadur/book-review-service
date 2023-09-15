@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookReview.WebApi.Migrations
 {
     [DbContext(typeof(BookReviewContext))]
-    [Migration("20230912052936_InitialCreate")]
+    [Migration("20230915180634_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -35,7 +35,8 @@ namespace BookReview.WebApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -57,7 +58,6 @@ namespace BookReview.WebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Genre")
@@ -66,6 +66,9 @@ namespace BookReview.WebApi.Migrations
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -88,7 +91,8 @@ namespace BookReview.WebApi.Migrations
 
                     b.Property<string>("CommentText")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -117,8 +121,9 @@ namespace BookReview.WebApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<double>("Rating")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("float(3)");
 
                     b.Property<string>("ReviewText")
                         .IsRequired()
@@ -137,7 +142,7 @@ namespace BookReview.WebApi.Migrations
             modelBuilder.Entity("BookReview.Entities.Models.Book", b =>
                 {
                     b.HasOne("BookReview.Entities.Models.Author", "Author")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -148,7 +153,7 @@ namespace BookReview.WebApi.Migrations
             modelBuilder.Entity("BookReview.Entities.Models.Comment", b =>
                 {
                     b.HasOne("BookReview.Entities.Models.Review", "Review")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("ReviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -159,12 +164,27 @@ namespace BookReview.WebApi.Migrations
             modelBuilder.Entity("BookReview.Entities.Models.Review", b =>
                 {
                     b.HasOne("BookReview.Entities.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("BookReview.Entities.Models.Author", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BookReview.Entities.Models.Book", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("BookReview.Entities.Models.Review", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

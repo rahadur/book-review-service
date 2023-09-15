@@ -6,9 +6,11 @@ public class Book
     public string Title { get; set; } = null!;
     public string Genre { get; set; } = null!;
     public string? Description { get; set; }
+    public double Rating { get; set; }
     public DateTime PublicationDate { get; set; }
     public string? CoverImage { get; set; }
 
     public int AuthorId { get; set; }
     public Author? Author { get; set; }
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

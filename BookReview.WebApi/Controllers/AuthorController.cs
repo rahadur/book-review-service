@@ -12,11 +12,13 @@ namespace BookReview.WebApi.Controllers;
 public class AuthorController : ControllerBase
 {
 	private readonly IAuthorRepository authorRepository;
+	private IUnitOfWork unitOfWork;
 	private IMapper mapper;
 	
-	public AuthorController(IAuthorRepository authorRepository, IMapper mapper)
+	public AuthorController(IAuthorRepository authorRepository, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		this.authorRepository = authorRepository;
+		this.unitOfWork = unitOfWork;
 		this.mapper = mapper;
 	}
 
@@ -33,7 +35,6 @@ public class AuthorController : ControllerBase
 		return authorsDto;
 	}
 
-
 	[HttpGet("{id}")]
 	public ActionResult<AuthorResponse> Get(int id)
 	{
@@ -47,16 +48,15 @@ public class AuthorController : ControllerBase
 		return authorDto;
 	}
 
-
 	[HttpPost]
 	public ActionResult<AuthorResponse> Post([FromBody] AuthorRequest author)
 	{
 		var newAuthor = mapper.Map<Author>(author);
 		authorRepository.Add(newAuthor);
+		SaveAuthor();
 
 		return Ok(mapper.Map<AuthorResponse>(newAuthor));
 	}
-
 
 	[HttpPut("{id}")]
 	public ActionResult<AuthorResponse> Put(int id, [FromBody] AuthorRequest author)
@@ -75,10 +75,10 @@ public class AuthorController : ControllerBase
 		 mapper.Map(author, existingAuthor);
 
 		 authorRepository.Update(existingAuthor);
+		 SaveAuthor();
 
 		return Ok(mapper.Map<AuthorResponse>(existingAuthor));
 	}
-
 
 	[HttpDelete("{id}")]
 	public IActionResult Delete(int id)
@@ -88,8 +88,17 @@ public class AuthorController : ControllerBase
 		{
 			return NotFound(new {});
 		}
+		
 		authorRepository.Remove(author);
+		 SaveAuthor();
+
 		return NoContent();
+	}
+
+
+	private void SaveAuthor()
+	{
+		unitOfWork.Commit();
 	}
 }
 

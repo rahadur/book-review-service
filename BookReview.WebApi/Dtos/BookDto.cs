@@ -19,6 +19,7 @@ public record BookResponse (
 	string Title,
 	string Genre,
 	string Description,
+	double Rating,
 	DateTime PublicationDate,
 	int AuthorId,
 	string? CoverImage

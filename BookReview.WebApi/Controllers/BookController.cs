@@ -12,12 +12,14 @@ namespace BookReview.WebApi.Controllers;
 public class BookController : ControllerBase
 {
 	private readonly IBookRepository bookRepository;
+	private IUnitOfWork unitOfWork;
 	private IMapper mapper;
 
-	public BookController(IBookRepository bookRepository, IMapper mapper)
+	public BookController(IBookRepository bookRepository, IUnitOfWork unitOfWork,  IMapper mapper)
 	{
-		this.mapper = mapper;
 		this.bookRepository = bookRepository;
+		this.unitOfWork = unitOfWork;
+		this.mapper = mapper;
 	}
 
 
@@ -40,6 +42,8 @@ public class BookController : ControllerBase
 		var newBook = mapper.Map<Book>(book);
 
 		bookRepository.Add(newBook);
+		SaveBook();
+
 		var bookDto = mapper.Map<BookResponse>(newBook);
 		return Ok(bookDto);
 	}
@@ -76,6 +80,8 @@ public class BookController : ControllerBase
 
 		mapper.Map(book, existingBook);
 		bookRepository.Update(existingBook);
+		SaveBook();
+
 		var bookDto = mapper.Map<BookResponse>(existingBook);
 
 		return bookDto;
@@ -91,6 +97,7 @@ public class BookController : ControllerBase
 			return NotFound(new {});
 		}
 		bookRepository.Remove(book);
+		SaveBook();
 
 		return NoContent();
 	}
@@ -119,5 +126,9 @@ public class BookController : ControllerBase
 		return booksDto;
 	}
 
+	private void SaveBook()
+	{
+		unitOfWork.Commit();
+	}
 }
 

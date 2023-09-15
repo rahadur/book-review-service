@@ -17,9 +17,11 @@ public interface IRepository<TEntity> where TEntity : class
 
 	TEntity? FindById(int id);
 	TEntity? FindById(string id);
-	TEntity? Where(Expression<Func<TEntity, bool>> predicate);
 	IEnumerable<TEntity> FindAll();
 	IEnumerable<TEntity> FindMany(Expression<Func<TEntity, bool>> predicate);
+	TEntity? Where(Expression<Func<TEntity, bool>> predicate);
+
+	IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] navigationProperties);
 
 	// IPagedList<TEntity> GetPage(Page page, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, bool>> order);
 }
