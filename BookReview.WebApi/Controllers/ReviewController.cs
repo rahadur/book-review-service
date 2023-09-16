@@ -29,38 +29,72 @@ public class ReviewController : ControllerBase
     public ActionResult<IEnumerable<ReviewResponse>> GetAll()
     {
         var reviews = reviewRepository.FindAll();
-        if(reviews == null)
-        {
-            return Ok(new List<ReviewResponse>());
-        }
-        var reviewsDto = mapper.Map<List<ReviewResponse>>(reviews);
+        var responses = mapper.Map<List<ReviewResponse>>(reviews);
+        return Ok(responses);
+    }
 
-        return Ok(reviewsDto);
+
+    [HttpGet("{id}")]
+    public ActionResult<ReviewResponse> GetById(int id)
+    {
+        var review = reviewRepository.Includes(r => r.Book).FirstOrDefault(r => r.Id == id);
+
+        if (review == null)
+        {
+            return NotFound(new { });
+        }
+
+        var response = mapper.Map<ReviewResponse>(review);
+        return Ok(response);
     }
 
 
     [HttpPost]
-    public ActionResult<ReviewResponse> Create([FromBody] ReviewRequest review)
+    public ActionResult<ReviewResponse> Create([FromBody] ReviewRequest reviewReq)
     {
         var book = bookRepository
             .Includes(book => book.Reviews)
-            .FirstOrDefault(book => book.Id == review.BookId);
+            .FirstOrDefault(book => book.Id == reviewReq.BookId);
 
-        if(book == null) 
+        if (book == null)
         {
-            return NotFound(new {});
+            return NotFound(new { });
         }
 
-        var newReview = mapper.Map<Review>(review);
-        book.Reviews.Add(newReview);
+        // Add new review
+        var review = mapper.Map<Review>(reviewReq);
+        book.Reviews.Add(review);
 
         // Update Book Rating Field
         book.Rating = book.Reviews.Average(review => review.Rating);
-        bookRepository.Update(book); 
-
+        bookRepository.Update(book);
         SaveReview();
 
-        return Ok(mapper.Map<ReviewResponse>(newReview));
+        var response = mapper.Map<ReviewResponse>(review);
+        return Ok(response);
+    }
+
+
+    [HttpPatch("{id}/ReviewText")]
+    public ActionResult<ReviewResponse> Update(int id, [FromBody] ReviewTextRequest reviewText)
+    {
+        if (id != reviewText.Id)
+        {
+            return BadRequest("Missmatch Review Ids");
+        }
+
+        var review = reviewRepository.FindById(id);
+        if (review == null)
+        {
+            return NotFound(new { });
+        }
+
+        mapper.Map(reviewText, review);
+        reviewRepository.Update(review);
+        SaveReview();
+
+        var response = mapper.Map<ReviewResponse>(review);
+        return Ok(response);
     }
 
 

@@ -11,7 +11,7 @@ public class Review
 
 
     public int BookId { get; set; }
-    public Book? Book { get; set; }
+    public Book Book { get; set; } = null!;
     
     public int? UserId { get; set; }
 

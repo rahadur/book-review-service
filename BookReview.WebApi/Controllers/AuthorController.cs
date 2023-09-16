@@ -14,7 +14,7 @@ public class AuthorController : ControllerBase
 	private readonly IAuthorRepository authorRepository;
 	private IUnitOfWork unitOfWork;
 	private IMapper mapper;
-	
+
 	public AuthorController(IAuthorRepository authorRepository, IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		this.authorRepository = authorRepository;
@@ -27,70 +27,69 @@ public class AuthorController : ControllerBase
 	public ActionResult<IEnumerable<AuthorResponse>> GetAll()
 	{
 		var authors = authorRepository.FindAll();
-		if(authors == null)
-		{
-			return NotFound(new List<AuthorResponse>());
-		}
-		var authorsDto = mapper.Map<List<AuthorResponse>>(authors);
-		return authorsDto;
+		var responses = mapper.Map<List<AuthorResponse>>(authors);
+		return Ok(responses);
 	}
+
 
 	[HttpGet("{id}")]
 	public ActionResult<AuthorResponse> Get(int id)
 	{
 		var author = authorRepository.FindById(id);
-		if(author == null) 
+		if (author == null)
 		{
-			return NotFound(new {});
+			return NotFound(new { });
 		}
 
-		var authorDto = mapper.Map<AuthorResponse>(author);
-		return authorDto;
+		var response = mapper.Map<AuthorResponse>(author);
+		return Ok(response);
 	}
 
 	[HttpPost]
-	public ActionResult<AuthorResponse> Post([FromBody] AuthorRequest author)
+	public ActionResult<AuthorResponse> Post([FromBody] AuthorRequest authorReq)
 	{
-		var newAuthor = mapper.Map<Author>(author);
-		authorRepository.Add(newAuthor);
+		var author = mapper.Map<Author>(authorReq);
+		authorRepository.Add(author);
 		SaveAuthor();
 
-		return Ok(mapper.Map<AuthorResponse>(newAuthor));
+		var response = mapper.Map<AuthorResponse>(author);
+		return Ok(response);
 	}
 
 	[HttpPut("{id}")]
-	public ActionResult<AuthorResponse> Put(int id, [FromBody] AuthorRequest author)
+	public ActionResult<AuthorResponse> Put(int id, [FromBody] AuthorRequest authorReq)
 	{
-		 if (id != author.Id) 
-		 {
+		if (id != authorReq.Id)
+		{
 			return BadRequest("Mismatch Author Ids");
-		 }
+		}
 
-		 var existingAuthor = authorRepository.FindById(id);
-		 if(existingAuthor == null)
-		 {
-			return NotFound(new {});
-		 }
+		var author = authorRepository.FindById(id);
+		if (author == null)
+		{
+			return NotFound(new { });
+		}
 
-		 mapper.Map(author, existingAuthor);
+		mapper.Map(authorReq, author);
 
-		 authorRepository.Update(existingAuthor);
-		 SaveAuthor();
+		authorRepository.Update(author);
+		SaveAuthor();
 
-		return Ok(mapper.Map<AuthorResponse>(existingAuthor));
+		var response = mapper.Map<AuthorResponse>(author);
+		return Ok(response);
 	}
 
 	[HttpDelete("{id}")]
 	public IActionResult Delete(int id)
 	{
-		var author =  authorRepository.FindById(id);
-		if(author == null) 
+		var author = authorRepository.FindById(id);
+		if (author == null)
 		{
-			return NotFound(new {});
+			return NotFound(new { });
 		}
-		
+
 		authorRepository.Remove(author);
-		 SaveAuthor();
+		SaveAuthor();
 
 		return NoContent();
 	}
