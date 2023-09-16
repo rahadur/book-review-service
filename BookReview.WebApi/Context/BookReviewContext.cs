@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 using BookReview.Entities.Configurations;
 using BookReview.Entities.Models;
 
 namespace BookReview.WebApi.Context;
 
-public class BookReviewContext : DbContext
+public class BookReviewContext : IdentityDbContext<IdentityUser>
 {
     public BookReviewContext(DbContextOptions<BookReviewContext> options) : base(options) 
     {
@@ -21,5 +24,7 @@ public class BookReviewContext : DbContext
         new AuthorConfiguration().Configure(mb.Entity<Author>());
         new ReviewConfiguration().Configure(mb.Entity<Review>());
         new CommentConfiguration().Configure(mb.Entity<Comment>());
+        
+        base.OnModelCreating(mb);
     }
 }

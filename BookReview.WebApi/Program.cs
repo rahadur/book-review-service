@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
 using BookReview.WebApi.Context;
 using BookReview.WebApi.Repositories;
 using BookReview.Dtos.WebApi;
-using Microsoft.AspNetCore.Mvc;
 using BookReview.WebApi.Exeptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +17,14 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = ModleStateValidator.GenerateErrorResponse;
 });
+
 builder.Services.AddDbContext<BookReviewContext>(
     options => options.UseSqlServer(config.GetConnectionString("BookReview"))
 );
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<BookReviewContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperDtoProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -46,6 +53,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();

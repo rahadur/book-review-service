@@ -14,6 +14,9 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
 		builder.Property(b => b.Title)
 				.IsRequired();
 
+		builder.Property(b => b.Rating)
+			.HasPrecision(3, 2);
+
 		builder.HasMany(e => e.Reviews)
 			.WithOne(e => e.Book)
 			.HasForeignKey(e => e.BookId)
