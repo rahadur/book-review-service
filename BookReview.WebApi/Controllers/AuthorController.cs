@@ -23,10 +23,10 @@ public class AuthorController : ControllerBase
 	}
 
 
-	[HttpGet]
-	public ActionResult<IEnumerable<AuthorResponse>> GetAll()
+	[HttpGet(Name = "authors")]
+	public ActionResult<IEnumerable<AuthorResponse>> GetAll(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
 	{
-		var authors = authorRepository.FindAll();
+		var authors = authorRepository.GetPage(currentPage, pageSize, orderBy, sort);
 		var responses = mapper.Map<List<AuthorResponse>>(authors);
 		return Ok(responses);
 	}

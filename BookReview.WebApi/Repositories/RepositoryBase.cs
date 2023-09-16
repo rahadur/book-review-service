@@ -47,7 +47,7 @@ public class RepositoryBase<TEntity> : Disposable, IRepository<TEntity> where TE
 	{
 		IEnumerable<TEntity> entities = dbSet.Where(predicate);
 		dbSet.RemoveRange(entities);
-		
+
 	}
 
 	public TEntity? FindById(int id)
@@ -77,15 +77,48 @@ public class RepositoryBase<TEntity> : Disposable, IRepository<TEntity> where TE
 
 
 	public IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] navigationProperties)
-    {
-        IQueryable<TEntity> query = dbSet;
+	{
+		IQueryable<TEntity> query = dbSet;
 
-        foreach (Expression<Func<TEntity, object>> navigationProperty in navigationProperties)
-        {
-            query = query.Include(navigationProperty);
-        }
+		foreach (Expression<Func<TEntity, object>> navigationProperty in navigationProperties)
+		{
+			query = query.Include(navigationProperty);
+		}
 
-        return query;
-    }
+		return query;
+	}
+
+	public IEnumerable<TEntity> GetPage(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
+	{
+		IQueryable<TEntity> query = dbSet;
+
+		if (!string.IsNullOrEmpty(orderBy))
+		{
+			orderBy = ToPascalCase(orderBy);
+
+			if (!string.IsNullOrEmpty(sort) && sort!.Equals("desc", StringComparison.OrdinalIgnoreCase))
+			{
+				query = dbSet.OrderByDescending(e => EF.Property<object>(e, orderBy));
+			}
+			else
+			{
+				query = dbSet.OrderBy(e => EF.Property<object>(e, orderBy));
+			}
+		}
+
+		query.Skip((currentPage - 1) * pageSize)
+			.Take(pageSize)
+			.ToList();
+
+		return query;
+	}
+
+	private string ToPascalCase(string input)
+	{
+		if (string.IsNullOrEmpty(input))
+			return input;
+
+		return char.ToUpper(input[0]) + input.Substring(1);
+	}
 }
 

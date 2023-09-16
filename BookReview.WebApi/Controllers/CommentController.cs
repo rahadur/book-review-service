@@ -27,9 +27,9 @@ public class CommentController : ControllerBase
 	
 
 	[HttpGet(Name = "GetComments")]
-	public ActionResult<IEnumerable<CommentResponse>> GetComments()
+	public ActionResult<IEnumerable<CommentResponse>> GetComments(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
 	{
-		var comments = commentRepository.FindAll();
+		var comments = commentRepository.GetPage(currentPage, pageSize, orderBy, sort);
 		var response = mapper.Map<List<CommentResponse>>(comments);
 		return Ok(response);
 	}

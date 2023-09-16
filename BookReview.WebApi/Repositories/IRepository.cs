@@ -23,6 +23,8 @@ public interface IRepository<TEntity> where TEntity : class
 
 	IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] navigationProperties);
 
+	IEnumerable<TEntity> GetPage(int currentPage, int pageSize, string? orderBy, string? sort);
+
 	// IPagedList<TEntity> GetPage(Page page, Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, bool>> order);
 }
 

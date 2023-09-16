@@ -26,9 +26,9 @@ public class ReviewController : ControllerBase
 
 
     [HttpGet(Name = "Reviews")]
-    public ActionResult<IEnumerable<ReviewResponse>> GetAll()
+    public ActionResult<IEnumerable<ReviewResponse>> GetAll(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
     {
-        var reviews = reviewRepository.FindAll();
+        var reviews = reviewRepository.GetPage(currentPage, pageSize, orderBy, sort);
         var responses = mapper.Map<List<ReviewResponse>>(reviews);
         return Ok(responses);
     }

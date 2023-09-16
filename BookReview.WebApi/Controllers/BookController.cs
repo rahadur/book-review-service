@@ -25,9 +25,9 @@ public class BookController : ControllerBase
 
 
 	[HttpGet(Name = "GetBook")]
-	public ActionResult<IEnumerable<BookResponse>> GetAll()
+	public ActionResult<IEnumerable<BookResponse>> GetAll(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
 	{
-		var books = bookRepository.FindAll();
+		var books = bookRepository.GetPage(currentPage, pageSize, orderBy, sort);
 		var response = mapper.Map<List<BookResponse>>(books);
 		return Ok(response);
 	}

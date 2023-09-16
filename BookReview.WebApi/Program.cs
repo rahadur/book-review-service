@@ -11,7 +11,8 @@ var config = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.Configure<ApiBehaviorOptions>(options => {
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
     options.InvalidModelStateResponseFactory = ModleStateValidator.GenerateErrorResponse;
 });
 builder.Services.AddDbContext<BookReviewContext>(
@@ -26,7 +27,13 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opts =>
+{
+    /* opts.SwaggerDoc("v1", new OpenApiInfo { Title = "YourApi", Version = "v1" });
+    var coreXmlFile = "BookReview.WebApi.xml";
+    var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlFile);
+    opts.IncludeXmlComments(coreXmlPath); */
+});
 
 var app = builder.Build();
 
