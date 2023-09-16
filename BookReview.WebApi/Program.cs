@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using BookReview.WebApi.Context;
 using BookReview.WebApi.Repositories;
 using BookReview.Dtos.WebApi;
+using Microsoft.AspNetCore.Mvc;
+using BookReview.WebApi.Exeptions;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -9,6 +11,9 @@ var config = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.Configure<ApiBehaviorOptions>(options => {
+    options.InvalidModelStateResponseFactory = ModleStateValidator.GenerateErrorResponse;
+});
 builder.Services.AddDbContext<BookReviewContext>(
     options => options.UseSqlServer(config.GetConnectionString("BookReview"))
 );
@@ -36,6 +41,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();
