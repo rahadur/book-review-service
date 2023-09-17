@@ -13,7 +13,7 @@ public class Review
     public Book Book { get; set; } = null!;
     
     public string UserId { get; set; } = null!;
-    public User User { get; set; }
+    public User? User { get; set; }
 
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }

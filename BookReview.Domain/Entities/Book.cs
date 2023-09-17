@@ -14,7 +14,7 @@ public class Book
     public Author? Author { get; set; }
 
     public string UserId { get; set; } = null!;
-    public User User { get; set; }
+    public User? User { get; set; }
 
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }
