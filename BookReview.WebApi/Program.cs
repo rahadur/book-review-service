@@ -1,11 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 using BookReview.WebApi.Context;
 using BookReview.WebApi.Repositories;
 using BookReview.Dtos.WebApi;
+using BookReview.WebApi;
 using BookReview.WebApi.Exeptions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -25,6 +27,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<BookReviewContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddAuthentication(builder.Configuration);
+
 builder.Services.AddAutoMapper(typeof(AutoMapperDtoProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -34,13 +38,7 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opts =>
-{
-    /* opts.SwaggerDoc("v1", new OpenApiInfo { Title = "YourApi", Version = "v1" });
-    var coreXmlFile = "BookReview.WebApi.xml";
-    var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlFile);
-    opts.IncludeXmlComments(coreXmlPath); */
-});
+builder.Services.AddSwaggerGen(builder.Configuration);
 
 var app = builder.Build();
 
