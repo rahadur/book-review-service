@@ -22,6 +22,11 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 				.WithMany(r => r.Comments)
 				.HasForeignKey(c => c.ReviewId)
 				.IsRequired();
+
+		builder.HasOne(b => b.User)
+			.WithMany(u => u.Comments)
+			.HasForeignKey(b => b.UserId)
+			.OnDelete(DeleteBehavior.Restrict);
 	}
 }
 

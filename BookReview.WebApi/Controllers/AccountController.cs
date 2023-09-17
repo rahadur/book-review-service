@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
 using BookReview.Dtos;
+using BookReview.Entities.Models;
 
 namespace BookReview.WebApi.Controllers;
 
@@ -16,11 +17,11 @@ namespace BookReview.WebApi.Controllers;
 [Route("[controller]")]
 public class AccountController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> userManager;
-    private readonly SignInManager<IdentityUser> signInManager;
+    private readonly UserManager<User> userManager;
+    private readonly SignInManager<User> signInManager;
     private readonly IConfiguration configuration;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
@@ -31,7 +32,7 @@ public class AccountController : ControllerBase
     [HttpPost(Name = "CreateAccount")]
     public async Task<IActionResult> CreateAccount([FromBody] Registation model)
     {
-        var user = new IdentityUser()
+        var user = new User()
         {
             UserName = model.Username,
             Email = model.Email,
@@ -62,7 +63,7 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> AccountLogin([FromBody] Login login)
     {
 
-        IdentityUser? user;
+        User? user;
         if (IsValidEmail(login.Identity))
         {
             user = await userManager.FindByEmailAsync(login.Identity);
@@ -99,7 +100,7 @@ public class AccountController : ControllerBase
     }
 
 
-    private string GenerateJwtToken(IdentityUser user)
+    private string GenerateJwtToken(User user)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
         if (jwtSettings == null)

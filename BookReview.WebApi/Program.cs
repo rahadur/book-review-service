@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using BookReview.Entities.Models;
 using BookReview.WebApi.Context;
 using BookReview.WebApi.Repositories;
 using BookReview.Dtos.WebApi;
@@ -23,7 +24,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddDbContext<BookReviewContext>(
     options => options.UseSqlServer(config.GetConnectionString("BookReview"))
 );
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, UserRole>()
     .AddEntityFrameworkStores<BookReviewContext>()
     .AddDefaultTokenProviders();
 

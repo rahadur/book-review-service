@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 
 namespace BookReview.Entities.Models;
 
@@ -13,7 +12,8 @@ public class Review
     public int BookId { get; set; }
     public Book Book { get; set; } = null!;
     
-    public int? UserId { get; set; }
+    public string UserId { get; set; } = null!;
+    public User User { get; set; }
 
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }

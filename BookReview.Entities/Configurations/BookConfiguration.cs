@@ -22,6 +22,10 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
 			.HasForeignKey(e => e.BookId)
 			.IsRequired();
 
+		builder.HasOne(b => b.User)
+			.WithMany(u => u.Books)
+			.HasForeignKey(b => b.UserId)
+			.OnDelete(DeleteBehavior.Restrict);
 		
 	}
 }

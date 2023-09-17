@@ -22,6 +22,7 @@ public record BookResponse (
 	double Rating,
 	DateTime PublicationDate,
 	int AuthorId,
+	string UserId,
 	string? CoverImage
 );
 

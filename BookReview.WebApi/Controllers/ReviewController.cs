@@ -1,8 +1,10 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+
 using BookReview.WebApi.Dtos;
 using BookReview.WebApi.Repositories;
-using AutoMapper;
 using BookReview.Entities.Models;
 
 namespace BookReview.WebApi.Controllers;
@@ -26,9 +28,9 @@ public class ReviewController : ControllerBase
 
 
     [HttpGet(Name = "Reviews")]
-    public ActionResult<IEnumerable<ReviewResponse>> GetAll(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
+    public ActionResult<IEnumerable<ReviewResponse>> GetAll([FromQuery] FilterQuery query)
     {
-        var reviews = reviewRepository.GetPage(currentPage, pageSize, orderBy, sort);
+        var reviews = reviewRepository.GetPage(query.currentPage, query.pageSize, query.orderBy, query.sort);
         var responses = mapper.Map<List<ReviewResponse>>(reviews);
         return Ok(responses);
     }
@@ -50,6 +52,7 @@ public class ReviewController : ControllerBase
 
 
     [HttpPost]
+    [Authorize]
     public ActionResult<ReviewResponse> Create([FromBody] ReviewRequest reviewReq)
     {
         var book = bookRepository
@@ -76,6 +79,7 @@ public class ReviewController : ControllerBase
 
 
     [HttpPatch("{id}/ReviewText")]
+    [Authorize]
     public ActionResult<ReviewResponse> Update(int id, [FromBody] ReviewTextRequest reviewText)
     {
         if (id != reviewText.Id)

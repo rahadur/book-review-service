@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BookReview.Entities.Models;
 using BookReview.WebApi.Dtos;
@@ -27,15 +28,16 @@ public class CommentController : ControllerBase
 	
 
 	[HttpGet(Name = "GetComments")]
-	public ActionResult<IEnumerable<CommentResponse>> GetComments(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
+	public ActionResult<IEnumerable<CommentResponse>> GetComments([FromQuery] FilterQuery query)
 	{
-		var comments = commentRepository.GetPage(currentPage, pageSize, orderBy, sort);
+		var comments = commentRepository.GetPage(query.currentPage, query.pageSize, query.orderBy, query.sort);
 		var response = mapper.Map<List<CommentResponse>>(comments);
 		return Ok(response);
 	}
 
 
 	[HttpPost]
+	[Authorize]
 	public ActionResult<CommentResponse> Create([FromBody] CommentRequest commentRequest)
 	{
 		var review = reviewRepository.Includes(r => r.Comments).FirstOrDefault(r => r.Id == commentRequest.ReviewId);
@@ -55,6 +57,7 @@ public class CommentController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize]
 	public ActionResult<CommentResponse> Update(int id, [FromBody] CommentRequest commentReq)
 	{
 		if (id != commentReq.Id)
@@ -78,6 +81,7 @@ public class CommentController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize]
 	public ActionResult Delete(int id)
 	{
 		var comment = commentRepository.FindById(id);

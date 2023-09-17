@@ -1,6 +1,8 @@
 ﻿
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+
 using BookReview.WebApi.Dtos;
 using BookReview.Entities.Models;
 using BookReview.WebApi.Repositories;
@@ -24,9 +26,9 @@ public class AuthorController : ControllerBase
 
 
 	[HttpGet(Name = "authors")]
-	public ActionResult<IEnumerable<AuthorResponse>> GetAll(int currentPage = 1, int pageSize = 10, string? orderBy = "", string? sort = "")
+	public ActionResult<IEnumerable<AuthorResponse>> GetAll([FromQuery] FilterQuery query)
 	{
-		var authors = authorRepository.GetPage(currentPage, pageSize, orderBy, sort);
+		var authors = authorRepository.GetPage(query.currentPage, query.pageSize, query.orderBy, query.sort);
 		var responses = mapper.Map<List<AuthorResponse>>(authors);
 		return Ok(responses);
 	}
@@ -45,7 +47,9 @@ public class AuthorController : ControllerBase
 		return Ok(response);
 	}
 
+
 	[HttpPost]
+	[Authorize]
 	public ActionResult<AuthorResponse> Post([FromBody] AuthorRequest authorReq)
 	{
 		var author = mapper.Map<Author>(authorReq);
@@ -57,6 +61,7 @@ public class AuthorController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
+	[Authorize]
 	public ActionResult<AuthorResponse> Put(int id, [FromBody] AuthorRequest authorReq)
 	{
 		if (id != authorReq.Id)
@@ -80,6 +85,7 @@ public class AuthorController : ControllerBase
 	}
 
 	[HttpDelete("{id}")]
+	[Authorize]
 	public IActionResult Delete(int id)
 	{
 		var author = authorRepository.FindById(id);
