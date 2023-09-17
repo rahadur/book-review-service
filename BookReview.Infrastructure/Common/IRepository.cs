@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace BookReview.WebApi.Repositories;
+namespace BookReview.Infrastructure.Common;
 
 
 public interface IRepository<TEntity> where TEntity : class 

@@ -1,4 +1,4 @@
-namespace BookReview.Entities.Models;
+namespace BookReview.Domain.Entities;
 
 public class Comment
 {

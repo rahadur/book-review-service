@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-using BookReview.Entities.Configurations;
-using BookReview.Entities.Models;
+using BookReview.Domain.Entities;
+using BookReview.Infrastructure.Configurations;
 
-namespace BookReview.WebApi.Context;
+namespace BookReview.Infrastructure.DataContext;
 
 public class BookReviewContext : IdentityDbContext<IdentityUser>
 {
@@ -20,10 +20,10 @@ public class BookReviewContext : IdentityDbContext<IdentityUser>
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
-        new BookConfiguration().Configure(mb.Entity<Book>());
+		new BookConfiguration().Configure(mb.Entity<Book>());
         new AuthorConfiguration().Configure(mb.Entity<Author>());
         new ReviewConfiguration().Configure(mb.Entity<Review>());
-        new CommentConfiguration().Configure(mb.Entity<Comment>());
+		new CommentConfiguration().Configure(mb.Entity<Comment>());
         
         base.OnModelCreating(mb);
     }

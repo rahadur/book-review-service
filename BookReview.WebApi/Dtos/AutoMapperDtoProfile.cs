@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using BookReview.Entities.Models;
+using BookReview.Domain.Entities;
 using BookReview.WebApi.Dtos;
 
 namespace BookReview.Dtos.WebApi;

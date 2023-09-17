@@ -1,9 +1,9 @@
-﻿
-using BookReview.Entities.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BookReview.Entities.Configurations;
+using BookReview.Domain.Entities;
+
+namespace BookReview.Infrastructure.Configurations;
 
 public class ReviewConfiguration : IEntityTypeConfiguration<Review>
 {

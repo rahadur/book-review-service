@@ -1,10 +1,8 @@
-﻿
-using BookReview.Entities.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using BookReview.Domain.Entities;
 
-namespace BookReview.Entities.Configurations;
-
+namespace BookReview.Infrastructure.Configurations;
 
 public class AuthorConfiguration : IEntityTypeConfiguration<Author>
 {

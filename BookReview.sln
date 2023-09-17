@@ -5,11 +5,16 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.WebApi", "BookReview.WebApi\BookReview.WebApi.csproj", "{9A99FE43-D5EC-48DF-BF29-B54862AD5D0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Entities", "BookReview.Entities\BookReview.Entities.csproj", "{B522BC1B-0BF9-4065-85EB-0E218252AB39}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Infrastructure", "BookReview.Infrastructure\BookReview.Infrastructure.csproj", "{81D08ECB-213D-4676-9D72-E56C7FBC2092}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Test", "BookReview.Test\BookReview.Test.csproj", "{9962D6DA-6ED6-4226-8C81-CCEB911482CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04887385-AE40-4165-A967-CCEAAA0294BC}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookReview.Domain", "BookReview.Domain\BookReview.Domain.csproj", "{80F357D7-86E1-4617-A290-45CB80DFF772}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
@@ -36,18 +41,6 @@ Global
 		{9A99FE43-D5EC-48DF-BF29-B54862AD5D0A}.Release|x64.Build.0 = Release|Any CPU
 		{9A99FE43-D5EC-48DF-BF29-B54862AD5D0A}.Release|x86.ActiveCfg = Release|Any CPU
 		{9A99FE43-D5EC-48DF-BF29-B54862AD5D0A}.Release|x86.Build.0 = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|x64.Build.0 = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Debug|x86.Build.0 = Debug|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x64.ActiveCfg = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x64.Build.0 = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x86.ActiveCfg = Release|Any CPU
-		{B522BC1B-0BF9-4065-85EB-0E218252AB39}.Release|x86.Build.0 = Release|Any CPU
 		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81D08ECB-213D-4676-9D72-E56C7FBC2092}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -72,5 +65,17 @@ Global
 		{9962D6DA-6ED6-4226-8C81-CCEB911482CC}.Release|x64.Build.0 = Release|Any CPU
 		{9962D6DA-6ED6-4226-8C81-CCEB911482CC}.Release|x86.ActiveCfg = Release|Any CPU
 		{9962D6DA-6ED6-4226-8C81-CCEB911482CC}.Release|x86.Build.0 = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|x64.Build.0 = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Debug|x86.Build.0 = Debug|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|x64.ActiveCfg = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|x64.Build.0 = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|x86.ActiveCfg = Release|Any CPU
+		{80F357D7-86E1-4617-A290-45CB80DFF772}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

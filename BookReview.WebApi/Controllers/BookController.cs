@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 
-using BookReview.Entities.Models;
-using BookReview.WebApi.Repositories;
+using BookReview.Domain.Entities;
+using BookReview.Infrastructure.Repositories;
 using BookReview.WebApi.Dtos;
+using BookReview.Infrastructure.Common;
 
 namespace BookReview.WebApi.Controllers;
 

@@ -1,7 +1,6 @@
-using BookReview.WebApi.Context;
-using Microsoft.EntityFrameworkCore;
+using BookReview.Infrastructure.DataContext;
 
-namespace BookReview.WebApi.Repositories;
+namespace BookReview.Infrastructure.Common;
 
 public class UnitOfWork : IUnitOfWork 
 {

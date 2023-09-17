@@ -1,5 +1,4 @@
-﻿
-namespace BookReview.WebApi.Repositories;
+﻿namespace BookReview.Infrastructure.Common;
 
 public class Disposable : IDisposable
 {

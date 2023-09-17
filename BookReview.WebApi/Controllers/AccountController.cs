@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
 using BookReview.Dtos;
-using BookReview.Entities.Models;
+using BookReview.Domain.Entities;
 
 namespace BookReview.WebApi.Controllers;
 

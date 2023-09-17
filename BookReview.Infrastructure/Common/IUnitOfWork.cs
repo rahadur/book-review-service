@@ -1,4 +1,4 @@
-namespace BookReview.WebApi.Repositories;
+namespace BookReview.Infrastructure.Common;
 
 public interface IUnitOfWork
 {

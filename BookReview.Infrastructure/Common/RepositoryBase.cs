@@ -1,9 +1,8 @@
-﻿
-using BookReview.WebApi.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using BookReview.Infrastructure.DataContext;
 
-namespace BookReview.WebApi.Repositories;
+namespace BookReview.Infrastructure.Common;
 
 public class RepositoryBase<TEntity> : Disposable, IRepository<TEntity> where TEntity : class
 {
