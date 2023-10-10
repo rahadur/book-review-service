@@ -15,6 +15,7 @@ var config = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCORSOrigin();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -43,7 +44,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+	app.UseCors("AllowLocalhostOrigin");
 }
+
+
+
 
 app.UseHttpsRedirection();
 

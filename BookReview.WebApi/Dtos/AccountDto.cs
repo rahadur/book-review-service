@@ -17,7 +17,7 @@ public class Registation
 
     [DataType(DataType.Password)]
     [Compare("Password", ErrorMessage = "Passwords do not match.")]
-    public string ConfirmPssword { get; set; } = null!;
+    public string ConfirmPassword { get; set; } = null!;
 
 }
 
